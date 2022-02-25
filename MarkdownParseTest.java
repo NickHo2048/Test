@@ -50,7 +50,7 @@ public class MarkdownParseTest {
     {
         String contents = readFile("snippet-1.md");
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        ArrayList<String> Reallinks = new ArrayList<>(List.of("url.com","'google.com'","google.com","ucsd.edu"));
+        ArrayList<String> Reallinks = new ArrayList<>(List.of("url.com","`google.com","google.com","ucsd.edu"));
         assertArrayEquals(Reallinks.toArray(),links.toArray());
     }
 
