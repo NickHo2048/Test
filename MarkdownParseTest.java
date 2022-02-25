@@ -21,29 +21,77 @@ public class MarkdownParseTest {
     }
 
     @Test
-    public void getLinks() throws IOException{
-       // Path fileName = Path.of("./test-file.md");
-	   // String contents = Files.readString(fileName);
-        //assertEquals(List.of("https://something.com", "some-page.html"), MarkdownParse.getLinks(contents));
+    public void testBaseCase() throws IOException {
+        String contents = readFile("test-file.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks =
+                new ArrayList<>(List.of("https://something.com", "some-page.html"));
+
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
+
     }
 
     @Test
-    public void getLinks1() throws IOException{
-       // Path fileName = Path.of("./test2-file.md");
-	   // String contents = Files.readString(fileName);
-        //assertEquals( List.of("link.com"), MarkdownParse.getLinks(contents));
+    public void testEmptyCase() throws IOException {
+        String contents = readFile("test-empty.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks = new ArrayList<>(List.of());
+
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
     }
+
+
     @Test
-    public void getLinks2() throws IOException{
-        //Path fileName = Path.of("./test3-file.md");
-	   // String contents = Files.readString(fileName);
-       // assertEquals(List.of("link.com"), MarkdownParse.getLinks(contents));
+    public void testNewLine() throws IOException {
+        String contents = readFile("test-file-newline.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks =
+                new ArrayList<>(List.of("https://something.com", "some-page.html"));
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
+
     }
+
     @Test
-    public void getLinks3() throws IOException{
-       // Path fileName = Path.of("./test4-file.md");
-	    //String contents = Files.readString(fileName);
-        //assertEquals(List.of(), MarkdownParse.getLinks(contents));
+    public void testBackSlash() throws IOException {
+        String contents = readFile("test-backslash-escapes.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks = new ArrayList<>(List.of("/close_bracket", "/single_)bracket",
+                "/double_\\", "/triple_\\)bracket", "/quad_\\\\", "/open_(paren"));
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
+    }
+
+    @Test
+    public void testEndingText() throws IOException {
+        String contents = readFile("test-ending-text.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks =
+                new ArrayList<>(List.of("https://something.com", "some-page.html"));
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
+    }
+
+    @Test
+    public void testIgnoreImage() throws IOException {
+        String contents = readFile("test-ignore-image.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks =
+                new ArrayList<>(List.of("/actual_link1", "/actual_link2", "/actual_link3"));
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
+    }
+
+    @Test
+    public void testBackSlash2() throws IOException {
+        String contents = readFile("test-backslash-escapes2.md");
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> Reallinks = new ArrayList<>(List.of("/close_bracket", "/single_)bracket",
+                "/double_\\", "/triple_\\)bracket", "/quad_\\\\", "/open_(paren"));
+        assertArrayEquals(links.toArray(), Reallinks.toArray());
+
     }
     @Test
     public void testSnippet1() throws IOException
