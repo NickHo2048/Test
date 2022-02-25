@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Library/JUNIT/hamcrest-core-1.3.jar",
+        "/Library/JUNIT/junit-4.12.jar"
+    ]
+}
